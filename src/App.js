@@ -1,5 +1,4 @@
 import React, { Component } from 'react';
-import logo from './logo.svg';
 import './App.css';
 
 class App extends Component {
@@ -11,14 +10,13 @@ class App extends Component {
         }
     }
     render() {
-        var buttonTitle = `添加第 ${this.state.items.length + 1} 个todo`
+        var buttonTitle = `添加`
         return (
             <div className="App">
                 <header className="App-header">
-                    <img src={logo} className="App-logo" alt="logo" />
                     <h1 className="App-title">Ge TODO</h1>
                 </header>
-                <TodoList todos={this.state.items} handleItem={this.handleItem} />
+                <TodoList todos={this.state.items} updateItem={this.updateItem} deleteItem={this.deleteItem} />
                 <div>
                     <input onChange={this.handleChange} value={this.state.text} placeholder="代办事项" />
                     <button onClick={this.handleSubmit}>{buttonTitle}</button>
@@ -45,7 +43,7 @@ class App extends Component {
             }
         })
     }
-    handleItem = (item) => {
+    updateItem = (item) => {
         var index = 0
         for (var i = 0; i < this.state.items.length; i++) {
             if (this.state.items[i].id === item.id) {
@@ -60,12 +58,27 @@ class App extends Component {
             }
         })
     }
+    deleteItem = (item) => {
+        var index = 0
+        for (var i = 0; i < this.state.items.length; i++) {
+            if (this.state.items[i].id === item.id) {
+                index = i
+                break
+            }
+        }
+        this.setState((prevState) => {
+            prevState.items.splice(index, 1)
+            return {
+                items: prevState.items,
+            }
+        })
+    }
 }
 
 class TodoList extends React.Component {
     render() {
         const items = this.props.todos.map(t => (
-            <TodoItem key={t.id} item={t} handleItem={this.props.handleItem} />
+            <TodoItem key={t.id} item={t} updateItem={this.props.updateItem} deleteItem={this.props.deleteItem} />
         ))
 
         return (
@@ -85,23 +98,29 @@ class TodoItem extends React.Component {
     }
     render() {
         var t = this.state
-        var status = this.state.finished ? "todo-finished" : "todo-unfinished"
+        var status = t.finished ? "todo-finished" : "todo-unfinished"
+        var text = t.finished ? "未完成" : "完成"
         var classList = `todo-item ${status}`
 
         return (
             <li className={classList}>
-                <span>{t.text}</span>
-                <button onClick={this.update}>完成</button>
+                <p>{t.text}</p>
+                <button onClick={this.update}>{text}</button>
+                <button onClick={this.delete}>{"删除"}</button>
             </li>
         )
     }
     update = (e) => {
+        console.log('change');
         var state = {
             finished: !this.state.finished
         }
         this.setState(state, function () {
-            this.props.handleItem(this.state)
+            this.props.updateItem(this.state)
         })
+    }
+    delete = (e) => {
+        this.props.deleteItem(this.state)
     }
 }
 
