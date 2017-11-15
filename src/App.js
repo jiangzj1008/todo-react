@@ -34,7 +34,8 @@ class App extends Component {
         var i = {
             text: this.state.text,
             id: Date.now(),
-            finished: false
+            finished: false,
+            time: 0
         }
         this.setState((prevState) => {
             return {
@@ -90,11 +91,7 @@ class TodoList extends React.Component {
 class TodoItem extends React.Component {
     constructor(props) {
         super()
-        this.state = {
-            text: props.item.text,
-            id: props.item.id,
-            finished: props.item.finished
-        }
+        this.state = props.item
     }
     render() {
         var t = this.state
@@ -104,14 +101,20 @@ class TodoItem extends React.Component {
 
         return (
             <li className={classList}>
-                <p>{t.text}</p>
-                <button onClick={this.update}>{text}</button>
-                <button onClick={this.delete}>{"删除"}</button>
+                <div>
+                    <p>{t.text}</p>
+                    <button onClick={this.updateStatus}>{text}</button>
+                    <button onClick={this.delete}>{"删除"}</button>
+                </div>
+                <div>
+                    <p>{`${t.time} h`}</p>
+                    <button onClick={this.updateTime}>{"-"}</button>
+                    <button onClick={this.updateTime}>{"+"}</button>
+                </div>
             </li>
         )
     }
-    update = (e) => {
-        console.log('change');
+    updateStatus = (e) => {
         var state = {
             finished: !this.state.finished
         }
@@ -121,6 +124,21 @@ class TodoItem extends React.Component {
     }
     delete = (e) => {
         this.props.deleteItem(this.state)
+    }
+    updateTime = (e) => {
+        var op = e.target.innerHTML
+        var step = 1
+        if (op === "-") {
+            step = -1
+        }
+        var t = this.state.time + step
+        if (t < 0) {
+            t = 0
+        }
+        var state = {time: t}
+        this.setState(state, function () {
+            this.props.updateItem(this.state)
+        })
     }
 }
 
