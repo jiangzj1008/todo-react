@@ -1,12 +1,26 @@
-const reducer = (state = 0, action) => {
+const defaultState = {
+    items: [],
+    text: '',
+}
+const reducer = (state = defaultState, action) => {
     switch (action.type) {
-        case 'INCREMENT':
-            return state + 1;
-        case 'DECREMENT':
-            return state - 1;
+        case 'ADD_TODO':
+            let {text, id} = action.payload
+            let item = {
+                text: text,
+                id: id,
+                finished: false,
+                time: 0
+            }
+            let newState = Object.assign({}, state, {
+                items: state.items.concat(item),
+                text: ''
+            })
+            return newState
         default:
             return state
     }
 }
+
 
 export default reducer;

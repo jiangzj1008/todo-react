@@ -1,12 +1,14 @@
-import React, { Component } from 'react';
-import './App.css';
+import React, { Component } from 'react'
+import './App.css'
+import actions from './actions'
 
 class App extends Component {
     constructor(props) {
         super(props)
+        this.store = this.props.store
         this.state = {
-            items: [],
-            text: '',
+            items: props.state.items,
+            text: props.state.text
         }
     }
     render() {
@@ -31,17 +33,10 @@ class App extends Component {
         this.setState(state)
     }
     handleSubmit = (e) => {
-        var i = {
-            text: this.state.text,
-            id: Date.now(),
-            finished: false,
-            time: 0
-        }
+        let action = actions.addTodo(this.state.text)
+        this.store.dispatch(action)
         this.setState((prevState) => {
-            return {
-                items: prevState.items.concat(i),
-                text: ''
-            }
+            return this.store.getState()
         })
     }
     updateItem = (item) => {
