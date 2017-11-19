@@ -12,7 +12,7 @@ class TodoItem extends Component {
     }
 
     render() {
-        const {todo, deleteTodo} = this.props
+        const {todo} = this.props
         return (
             <li>
                 <span>{todo.text}</span>

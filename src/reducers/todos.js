@@ -22,7 +22,7 @@ export default function todos(state = initialState, action) {
 
         case DELETE_TODO:
             let newState = state.filter((todo) => {
-                todo.id !== action.id
+                return todo.id !== action.id
             })
             return newState
 
