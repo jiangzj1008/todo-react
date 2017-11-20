@@ -11,11 +11,17 @@ class TodoItem extends Component {
         deleteTodo(todo.id)
     }
 
+    handleComplete = () => {
+        const {todo, completeTodo} = this.props
+        completeTodo(todo.id)
+    }
+
     render() {
         const {todo} = this.props
         return (
             <li>
                 <span>{todo.text}</span>
+                <button onClick={this.handleComplete}>complete</button>
                 <button onClick={this.handleDelete}>del</button>
             </li>
         )

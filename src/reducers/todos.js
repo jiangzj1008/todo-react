@@ -8,7 +8,7 @@ const initialState = [
   }
 ]
 
-export default function todos(state = initialState, action) {
+const todos = function(state = initialState, action) {
     switch (action.type) {
         case ADD_TODO:
             return [
@@ -21,8 +21,16 @@ export default function todos(state = initialState, action) {
             ]
 
         case DELETE_TODO:
-            let newState = state.filter((todo) => {
+            let newState_1 = state.filter((todo) => {
                 return todo.id !== action.id
+            })
+            return newState_1
+
+        case COMPLETE_TODO:
+            let newState = state.map((todo) => {
+                if (todo.id === action.id) {
+                    todo.completed = true
+                }
             })
             return newState
 
@@ -30,3 +38,5 @@ export default function todos(state = initialState, action) {
             return state
     }
 }
+
+export default todos
