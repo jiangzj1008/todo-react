@@ -29,8 +29,9 @@ const todos = function(state = initialState, action) {
         case COMPLETE_TODO:
             let newState = state.map((todo) => {
                 if (todo.id === action.id) {
-                    todo.completed = true
+                    todo.completed = !todo.completed
                 }
+                return todo
             })
             return newState
 

@@ -1,5 +1,6 @@
 import React, { Component } from 'react'
 import PropTypes from 'prop-types'
+import '../css/TodoItem.css'
 
 class TodoItem extends Component {
     static propTypes = {
@@ -18,9 +19,10 @@ class TodoItem extends Component {
 
     render() {
         const {todo} = this.props
+        var c = todo.completed? 'completed' : 'todo'
         return (
             <li>
-                <span>{todo.text}</span>
+                <span className={c}>{todo.text}</span>
                 <button onClick={this.handleComplete}>complete</button>
                 <button onClick={this.handleDelete}>del</button>
             </li>
