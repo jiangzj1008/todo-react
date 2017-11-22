@@ -13,7 +13,7 @@ class Filter extends Component {
         const title = FILTER_TITLES[filter]
         const onShow = this.props.onShow
         return (
-            <a onClick={() => onShow(filter)}>
+            <a key={filter} onClick={() => onShow(filter)}>
                 {title}
             </a>
         )
